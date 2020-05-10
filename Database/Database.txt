@@ -1,0 +1,68 @@
+CREATE SCHEMA DeveloperKonner;
+
+CREATE TABLE tblAdmins(
+
+AdminID VARCHAR(255) NOT NULL,
+
+Name VARCHAR(45) NOT NULL,
+
+Password VARCHAR(255) NOT NULL,
+
+PRIMARY KEY(AdminID),
+
+INDEX(Name), INDEX(Password)
+
+);
+
+CREATE TABLE tblGeneralUsers(
+
+AccountID VARCHAR(255) NOT NULL,
+
+AccountName VARCHAR(45) NOT NULL,
+
+AccountPassword VARCHAR(255) NOT NULL,
+PRIMARY KEY(AccountID),
+
+INDEX(AccountName), INDEX(AccountPassword)
+
+);
+
+CREATE TABLE tblBooks(
+
+BookISBN VARCHAR(255) NOT NULL,
+
+BookTitle VARCHAR(4096) NOT NULL,
+
+Author VARCHAR(255)NOT NULL,
+
+Category VARCHAR(255) NOT NULL,
+
+eBook LONGBLOB NOT NULL,
+
+AdminID VARCHAR(255) NOT NULL,
+
+CONSTRAINT AddedBy
+
+FOREIGN KEY(AdminID) REFERENCES tblAdmins(AdminID),
+
+PRIMARY KEY(BookISBN)
+
+);
+
+CREATE TABLE tblApplicationIssues(
+
+IssueID VARCHAR(4096) NOT NULL,
+
+IssueDescription VARCHAR(4096) NOT NULL,
+
+ReportingUserID VARCHAR(255)NOT NULL,
+CONSTRAINT ReportedBy
+
+FOREIGN KEY(ReportingUserID) REFERENCES tblGeneralUsers(AccountID),
+
+CONSTRAINT ReportedBy1
+FOREIGN KEY(ReportingUserID) REFERENCES tblAdmins(AdminID),
+
+PRIMARY KEY(IssueID)
+
+);
